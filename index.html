@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7 Brew Brewista Study Guide 2026 — for Laney</title>
+<style>
+  :root{
+    --navy:#1a2238; --ink:#2b2b33; --cream:#faf5ec; --paper:#ffffff;
+    --red:#e63b47; --caramel:#c08552; --teal:#0e8f83; --purple:#7c4dbc;
+    --green:#3e9b4f; --orange:#e8842c; --blue:#2f6fd0; --pink:#d6467e;
+    --brown:#8a5a33; --gold:#d9a520;
+    --shadow:0 2px 10px rgba(26,34,56,.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:"Segoe UI", -apple-system, Roboto, Helvetica, Arial, sans-serif; background:var(--cream); color:var(--ink); line-height:1.5;}
+
+  header.hero{background:linear-gradient(135deg, var(--navy) 0%, #2d3a63 100%); color:#fff; padding:34px 20px 26px; text-align:center;}
+  header.hero .seven{display:inline-block; background:var(--red); color:#fff; font-weight:800; font-size:30px; width:54px; height:54px; line-height:54px; border-radius:14px; margin-bottom:10px; box-shadow:0 4px 12px rgba(0,0,0,.3);}
+  header.hero h1{font-size:clamp(24px,4.5vw,38px); font-weight:800; letter-spacing:.5px;}
+  header.hero p.sub{opacity:.85; margin-top:6px; font-size:15px;}
+  header.hero p.laney{margin-top:10px; font-size:14px; background:rgba(255,255,255,.12); display:inline-block; padding:5px 14px; border-radius:999px;}
+  header.hero a.applink{display:inline-block; margin-top:12px; background:var(--red); color:#fff; text-decoration:none; font-weight:800; font-size:15px; padding:10px 22px; border-radius:999px; box-shadow:0 4px 12px rgba(0,0,0,.25);}
+
+  nav#topnav{position:sticky; top:0; z-index:50; background:var(--paper); box-shadow:var(--shadow); padding:8px 10px; display:flex; gap:6px; overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  nav#topnav a{flex:0 0 auto; text-decoration:none; font-size:13px; font-weight:600; color:var(--navy); background:var(--cream); padding:7px 12px; border-radius:999px; border:1px solid #e8dfd0; white-space:nowrap;}
+  nav#topnav a:hover{background:var(--navy); color:#fff;}
+
+  .searchwrap{max-width:1000px; margin:18px auto 0; padding:0 16px;}
+  .searchwrap input{width:100%; padding:13px 18px; font-size:16px; border:2px solid #e0d5c2; border-radius:14px; background:var(--paper); outline:none;}
+  .searchwrap input:focus{border-color:var(--red);}
+  .searchnote{font-size:12px; color:#8b8577; margin-top:5px; padding-left:6px;}
+
+  main{max-width:1000px; margin:0 auto; padding:10px 16px 60px;}
+  section{margin-top:34px; scroll-margin-top:70px;}
+  .sechead{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .sechead .icon{font-size:26px;}
+  .sechead h2{font-size:22px; font-weight:800; color:var(--navy);}
+  .sechead .bar{flex:1; height:4px; border-radius:2px;}
+
+  .cardgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px;}
+  .fact{background:var(--paper); border-radius:12px; padding:13px 15px; box-shadow:var(--shadow); border-left:5px solid #ccc;}
+  .fact .q{font-size:13px; font-weight:600; color:#7a7466; text-transform:uppercase; letter-spacing:.4px;}
+  .fact .a{font-size:17px; font-weight:700; color:var(--navy); margin-top:3px;}
+  .fact .note{font-size:13px; color:#6d675a; margin-top:4px;}
+
+  #espresso .fact{border-color:var(--red);} #espresso .bar{background:var(--red);}
+  #temps .fact{border-color:var(--orange);} #temps .bar{background:var(--orange);}
+  #milks .fact{border-color:var(--blue);} #milks .bar{background:var(--blue);}
+  #originals .bar{background:var(--purple);}
+  #cups .fact{border-color:var(--teal);} #cups .bar{background:var(--teal);}
+  #scoops .bar{background:var(--green);}
+  #recipes .fact{border-color:var(--caramel);} #recipes .bar{background:var(--caramel);}
+  #rules .fact{border-color:var(--navy);} #rules .bar{background:var(--navy);}
+
+  .tempbar{display:flex; border-radius:12px; overflow:hidden; margin:6px 0 16px; box-shadow:var(--shadow); text-align:center; font-weight:700; color:#fff; font-size:12.5px;}
+  .tempbar div{padding:12px 4px; flex:1; min-width:0;}
+  .tempbar small{display:block; font-weight:600; opacity:.92; font-size:11px; margin-top:2px;}
+  .t-kids{background:#6fb5e0;} .t-drink{background:#e8b64c;} .t-reg{background:#e8842c;} .t-xhot{background:#d95436;} .t-burnt{background:#a02c2c;}
+
+  table{width:100%; border-collapse:collapse; background:var(--paper); border-radius:12px; overflow:hidden; box-shadow:var(--shadow); font-size:14.5px; margin-bottom:14px;}
+  th{background:var(--navy); color:#fff; padding:10px 10px; text-align:left; font-size:13px; letter-spacing:.4px;}
+  th.num, td.num{text-align:center; font-weight:700;}
+  td{padding:9px 10px; border-top:1px solid #f0e8da;}
+  tr:nth-child(even) td{background:#fbf8f2;}
+  td.name{font-weight:600; color:var(--navy);}
+  .scrollx{overflow-x:auto;}
+
+  .siggrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px;}
+  .sig{background:var(--paper); border-radius:14px; overflow:hidden; box-shadow:var(--shadow);}
+  .sig .top{padding:11px 14px; color:#fff; font-weight:800; font-size:17px; display:flex; justify-content:space-between; align-items:center;}
+  .sig .top .tag{font-size:11px; font-weight:700; background:rgba(255,255,255,.25); padding:3px 9px; border-radius:999px;}
+  .sig .body{padding:12px 14px;}
+  .sig .body .lab{font-size:11px; font-weight:700; color:#8b8577; text-transform:uppercase; letter-spacing:.5px; margin-top:6px;}
+  .sig .body .val{font-size:15px; font-weight:700; color:var(--navy);}
+
+  .recipe{background:var(--paper); border-radius:14px; box-shadow:var(--shadow); border-left:5px solid var(--caramel); padding:14px 16px;}
+  .recipe h3{font-size:16px; color:var(--navy); margin-bottom:6px;}
+  .recipe ol{padding-left:20px; font-size:14.5px;}
+  .recipe ol li{margin:3px 0;}
+  .recipegrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:12px;}
+
+  .callout{background:linear-gradient(135deg,#fff8e8,#fdefd2); border:2px solid var(--gold); border-radius:14px; padding:16px 18px; margin:16px 0;}
+  .callout h3{color:#8a6a10; font-size:16px; margin-bottom:8px;}
+  .callout ul{padding-left:20px; font-size:14.5px;}
+  .callout li{margin:4px 0;}
+  .callout b{color:var(--navy);}
+
+  .bigrule{background:var(--navy); color:#fff; border-radius:14px; padding:16px 18px; margin-bottom:14px; box-shadow:var(--shadow);}
+  .bigrule .t{font-size:13px; font-weight:700; color:#f3c46a; text-transform:uppercase; letter-spacing:.6px;}
+  .bigrule .v{font-size:20px; font-weight:800; margin-top:2px;}
+  .bigrule .n{font-size:13.5px; opacity:.85; margin-top:4px;}
+
+  footer{text-align:center; padding:26px 16px 40px; color:#8b8577; font-size:13px;}
+  .hidden{display:none !important;}
+
+  @media print{
+    nav#topnav, .searchwrap, a.applink{display:none;}
+    body{background:#fff;}
+    .fact,.sig,table,.bigrule,.callout,.recipe{box-shadow:none; border:1px solid #ddd;}
+    section{break-inside:avoid-page; margin-top:18px;}
+    header.hero{background:var(--navy); -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="seven">7</div>
+  <h1>7 BREW BREWISTA STUDY GUIDE</h1>
+  <p class="sub">2026 Brewista Test (updated set) &bull; all 78 cards, organized &amp; color-coded</p>
+  <p class="laney">☕ Made for Laney — you've got this! 💪</p>
+  <a class="applink" href="practice.html">🃏 Open the Flashcards &amp; Quiz app →</a>
+</header>
+
+<nav id="topnav">
+  <a href="#espresso">☕ Espresso</a>
+  <a href="#temps">🌡️ Temps</a>
+  <a href="#milks">🥛 Milks</a>
+  <a href="#originals">⭐ Originals</a>
+  <a href="#cups">🥤 Fill Lines & Ice</a>
+  <a href="#scoops">🍧 Scoops</a>
+  <a href="#recipes">🧾 Build-It Recipes</a>
+  <a href="#rules">✅ Rules & Big 3</a>
+</nav>
+
+<div class="searchwrap">
+  <input id="search" type="search" placeholder="🔍  Search any fact... (try &quot;blondie&quot;, &quot;scoops&quot;, &quot;matcha&quot;)">
+  <div class="searchnote">Type to filter every card on the page. Clear the box to bring everything back.</div>
+</div>
+
+<main>
+
+<!-- ══════════ ESPRESSO ══════════ -->
+<section id="espresso">
+  <div class="sechead"><span class="icon">☕</span><h2>Espresso &amp; Shots</h2><div class="bar"></div></div>
+
+  <div class="bigrule fact">
+    <div class="t">The Shot Window</div>
+    <div class="v">17 – 27 seconds &nbsp;&bull;&nbsp; the PERFECT shot = 22</div>
+    <div class="n">Pulling <b style="color:#f3c46a">SHORT</b> (too fast)? → make it <b style="color:#f3c46a">FINER</b>. Pulling <b style="color:#f3c46a">LONG</b> (too slow)? → make it <b style="color:#f3c46a">COARSER</b>.</div>
+  </div>
+
+  <div class="cardgrid">
+    <div class="fact"><div class="q">What is a Dub?</div><div class="a">2 shots</div></div>
+    <div class="fact"><div class="q">What is a Quad?</div><div class="a">4 shots</div></div>
+    <div class="fact"><div class="q">Triple 7 — total shots</div><div class="a">6 shots — any size</div></div>
+    <div class="fact"><div class="q">House Blend shots — S / M / L</div><div class="a">2 / 3 / 4</div></div>
+    <div class="fact"><div class="q">Shots in ANY kids drink</div><div class="a">1 shot</div></div>
+  </div>
+</section>
+
+<!-- ══════════ TEMPS ══════════ -->
+<section id="temps">
+  <div class="sechead"><span class="icon">🌡️</span><h2>Hot Drink Temperatures</h2><div class="bar"></div></div>
+
+  <div class="tempbar fact">
+    <div class="t-kids">110–120°<small>KIDS</small></div>
+    <div class="t-drink">140–150°<small>DRINKABLE</small></div>
+    <div class="t-reg">160–170°<small>REGULAR</small></div>
+    <div class="t-xhot">175–180°<small>EXTRA HOT</small></div>
+    <div class="t-burnt">180°+<small>BURNT ⚠️</small></div>
+  </div>
+</section>
+
+<!-- ══════════ MILKS ══════════ -->
+<section id="milks">
+  <div class="sechead"><span class="icon">🥛</span><h2>Milks &amp; Cream</h2><div class="bar"></div></div>
+
+  <div class="bigrule fact" style="background:var(--blue)">
+    <div class="t" style="color:#d8e8ff">Default cream for any drink (unless changed)</div>
+    <div class="v">BREVE</div>
+    <div class="n">Standard cream scoops: <b>1 - 2 - 2</b></div>
+  </div>
+
+  <div class="scrollx fact"><table>
+    <tr><th>Drink / Request</th><th>Milk to use</th></tr>
+    <tr><td class="name">Latte</td><td><b>Whole Milk</b></td></tr>
+    <tr><td class="name">Cappuccino</td><td><b>Whole Milk</b></td></tr>
+    <tr><td class="name">Macchiato</td><td><b>Whole Milk</b></td></tr>
+    <tr><td class="name">Blondie</td><td><b>Breve</b></td></tr>
+    <tr><td class="name">Brunette</td><td><b>Mocha</b></td></tr>
+    <tr><td class="name">"Skinny" drink</td><td><b>Skim</b> — plus SF syrups/sauces</td></tr>
+  </table></div>
+</section>
+
+<!-- ══════════ ORIGINALS ══════════ -->
+<section id="originals">
+  <div class="sechead"><span class="icon">⭐</span><h2>Originals &amp; Classics</h2><div class="bar"></div></div>
+
+  <div class="cardgrid" style="margin-bottom:14px">
+    <div class="fact" style="border-color:var(--purple)"><div class="q">The Original BREVES (5)</div><div class="a">Blondie, Smooth 7, Cinnamon Roll, Sweet &amp; Salty, Cookie Butter</div></div>
+    <div class="fact" style="border-color:var(--purple)"><div class="q">The Original MOCHAS (2)</div><div class="a">Banana Bread, Brunette</div></div>
+    <div class="fact" style="border-color:var(--purple)"><div class="q">The CLASSIC drinks</div><div class="a">Lattes, House Blend, Mocha, Breves, Cappuccinos, Macchiatos, Cold Brew</div></div>
+  </div>
+
+  <div class="callout fact">
+    <h3>🧠 Memory shortcut</h3>
+    <ul>
+      <li><b>Mocha twins:</b> Banana Bread &amp; Brunette — the two "B-brown" drinks. The other five originals are <b>breves</b>.</li>
+      <li><b>White Chocolate shows up in 4:</b> Smooth 7, Cinnamon Roll, Sweet &amp; Salty, Cookie Butter.</li>
+      <li><b>Scoops:</b> breve originals = <b>1-2-2</b>, mocha originals = <b>1-1-2</b>.</li>
+    </ul>
+  </div>
+
+  <div class="siggrid">
+    <div class="sig fact"><div class="top" style="background:var(--gold)">Blondie <span class="tag">BREVE &bull; 1-2-2</span></div>
+      <div class="body"><div class="lab">Flavors</div><div class="val">Vanilla + Caramel</div></div></div>
+    <div class="sig fact"><div class="top" style="background:var(--caramel)">Smooth 7 <span class="tag">BREVE &bull; 1-2-2</span></div>
+      <div class="body"><div class="lab">Flavors</div><div class="val">Irish Cream + White Chocolate</div></div></div>
+    <div class="sig fact"><div class="top" style="background:var(--orange)">Cinnamon Roll <span class="tag">BREVE &bull; 1-2-2</span></div>
+      <div class="body"><div class="lab">Flavors</div><div class="val">White Chocolate + Brown Sugar Cinnamon</div></div></div>
+    <div class="sig fact"><div class="top" style="background:var(--pink)">Sweet &amp; Salty <span class="tag">BREVE &bull; 1-2-2</span></div>
+      <div class="body"><div class="lab">Flavors</div><div class="val">White Chocolate + Salted Caramel</div></div></div>
+    <div class="sig fact"><div class="top" style="background:var(--purple)">Cookie Butter <span class="tag">BREVE &bull; 1-2-2</span></div>
+      <div class="body"><div class="lab">Flavors</div><div class="val">Hazelnut + Toasted Marshmallow + White Chocolate</div></div></div>
+    <div class="sig fact"><div class="top" style="background:var(--brown)">Brunette <span class="tag">MOCHA &bull; 1-1-2</span></div>
+      <div class="body"><div class="lab">Flavors</div><div class="val">Hazelnut + Caramel</div></div></div>
+    <div class="sig fact"><div class="top" style="background:#a8842c">Banana Bread <span class="tag">MOCHA &bull; 1-1-2</span></div>
+      <div class="body"><div class="lab">Flavors</div><div class="val">Banana + Hazelnut</div></div></div>
+  </div>
+</section>
+
+<!-- ══════════ CUPS / ICE ══════════ -->
+<section id="cups">
+  <div class="sechead"><span class="icon">🥤</span><h2>Fill Lines &amp; Ice</h2><div class="bar"></div></div>
+
+  <div class="scrollx fact"><table>
+    <tr><th>Fill lines (oz)</th><th class="num">Kid</th><th class="num">Small</th><th class="num">Medium</th><th class="num">Large</th></tr>
+    <tr><td class="name">Ice (cold) drinks</td><td class="num">5</td><td class="num">8</td><td class="num">12</td><td class="num">16</td></tr>
+    <tr><td class="name">Hot drinks</td><td class="num">—</td><td class="num">8</td><td class="num">10</td><td class="num">12</td></tr>
+  </table></div>
+
+  <div class="cardgrid">
+    <div class="fact"><div class="q">"Light ice" gets how many extra ounces?</div><div class="a">4 oz</div></div>
+    <div class="fact"><div class="q">Light-ice MATCHA gets…</div><div class="a">1 extra scoop of matcha</div></div>
+    <div class="fact"><div class="q">Kids fill line</div><div class="a">5</div></div>
+  </div>
+</section>
+
+<!-- ══════════ SCOOPS ══════════ -->
+<section id="scoops">
+  <div class="sechead"><span class="icon">🍧</span><h2>Scoops Master Chart</h2><div class="bar"></div></div>
+
+  <div class="callout fact">
+    <h3>🧠 Scoop cheat codes (1 scoop = 1 oz)</h3>
+    <ul>
+      <li><b>1-1-1</b> → Classics, Hot Tea, Cold Brew flavor, Cocoa</li>
+      <li><b>1-1-2</b> → Original Mocha, Smoothies, anything Lemonade, Chai/Mocha/Matcha Chillers, Chillers, 7 Energy</li>
+      <li><b>1-2-2</b> → Original Breve, SF &amp; Milk-Alt drinks, standard Cream</li>
+      <li><b>2-3-4</b> → 7 Fizz, Fizz Chiller, Tea Chiller, Shakes, SF Energy Chiller, iced Matcha</li>
+      <li><b>Oddball:</b> HOT Matcha = <b>3-4-5</b> &bull; Tea bags = <b>1-1-2</b></li>
+    </ul>
+  </div>
+
+  <div class="scrollx fact"><table>
+    <tr><th>Drink</th><th class="num">S</th><th class="num">M</th><th class="num">L</th></tr>
+    <tr><td class="name">Classic drinks</td><td class="num">1</td><td class="num">1</td><td class="num">1</td></tr>
+    <tr><td class="name">Hot Tea</td><td class="num">1</td><td class="num">1</td><td class="num">1</td></tr>
+    <tr><td class="name">Cold Brew (flavor)</td><td class="num">1</td><td class="num">1</td><td class="num">1</td></tr>
+    <tr><td class="name">Cocoa</td><td class="num">1</td><td class="num">1</td><td class="num">1</td></tr>
+    <tr><td class="name">Original Mocha</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+    <tr><td class="name">Smoothies</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+    <tr><td class="name">Anything Lemonade</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+    <tr><td class="name">Chai Chiller</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+    <tr><td class="name">Mocha Chiller</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+    <tr><td class="name">Matcha Chiller</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+    <tr><td class="name">Chillers</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+    <tr><td class="name">7 Energy</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+    <tr><td class="name">Original Breve</td><td class="num">1</td><td class="num">2</td><td class="num">2</td></tr>
+    <tr><td class="name">SF &amp; Milk-Alt drinks</td><td class="num">1</td><td class="num">2</td><td class="num">2</td></tr>
+    <tr><td class="name">Standard Cream</td><td class="num">1</td><td class="num">2</td><td class="num">2</td></tr>
+    <tr><td class="name">7 Fizz</td><td class="num">2</td><td class="num">3</td><td class="num">4</td></tr>
+    <tr><td class="name">Fizz Chiller</td><td class="num">2</td><td class="num">3</td><td class="num">4</td></tr>
+    <tr><td class="name">Tea Chiller</td><td class="num">2</td><td class="num">3</td><td class="num">4</td></tr>
+    <tr><td class="name">Shakes</td><td class="num">2</td><td class="num">3</td><td class="num">4</td></tr>
+    <tr><td class="name">SF Energy Chiller</td><td class="num">2</td><td class="num">3</td><td class="num">4</td></tr>
+    <tr><td class="name">Matcha — ICED</td><td class="num">2</td><td class="num">3</td><td class="num">4</td></tr>
+    <tr><td class="name">Matcha — HOT</td><td class="num">3</td><td class="num">4</td><td class="num">5</td></tr>
+    <tr><td class="name">Tea bags (hot or iced tea)</td><td class="num">1</td><td class="num">1</td><td class="num">2</td></tr>
+  </table></div>
+
+  <div class="cardgrid">
+    <div class="fact" style="border-color:var(--green)"><div class="q">How big is a scoop?</div><div class="a">1 oz</div></div>
+  </div>
+</section>
+
+<!-- ══════════ RECIPES ══════════ -->
+<section id="recipes">
+  <div class="sechead"><span class="icon">🧾</span><h2>Build-It Recipes (know these!)</h2><div class="bar"></div></div>
+
+  <div class="recipegrid">
+    <div class="recipe fact"><h3>🥤 Smoothies</h3>
+      <ol><li>Smoothie mix to the <b>6 / 9 / 12</b> line</li><li>Ice cream mix: <b>2 / 3 / 4</b></li><li>Scoops: <b>1-1-2</b></li></ol></div>
+    <div class="recipe fact"><h3>🍓 Medium Strawberry Banana Smoothie</h3>
+      <ol><li>1 scoop banana</li><li>To the <b>9</b> with strawberry puree</li><li>To the <b>12</b> with ice cream</li></ol></div>
+    <div class="recipe fact"><h3>🥛 Shakes</h3>
+      <ol><li>Flavor: <b>2 / 3 / 4</b></li><li>Ice cream mix to the <b>6 / 9 / 12</b></li></ol></div>
+    <div class="recipe fact"><h3>☕ Large Cappuccino</h3>
+      <ol><li>4 espresso shots</li><li>Half steamed whole milk</li><li>Half whole-milk froth</li></ol></div>
+    <div class="recipe fact"><h3>🍫 Small Half-Sweet Mocha</h3>
+      <ol><li>4 oz mocha</li><li>4 oz breve</li></ol></div>
+    <div class="recipe fact"><h3>🌀 Large DECAF Mocha Chiller</h3>
+      <ol><li>4 scoops chocolate</li><li>4 decaf shots</li><li>Tom-tom</li><li>Top with ice → blend</li></ol>
+      <p style="font-size:13px; color:#6d675a; margin-top:6px">Decaf mocha chiller still uses mocha mix? <b>YES</b></p></div>
+    <div class="recipe fact"><h3>🌰 Large Almond Milk Brunette Chiller</h3>
+      <ol><li>2 scoops brunette</li><li>2 scoops chocolate</li><li>4 shots espresso</li><li>Fill to the <b>12 oz</b> line with almond milk</li></ol></div>
+    <div class="recipe fact"><h3>🍵 Small Earl Grey Iced Tea</h3>
+      <ol><li>1 Earl Grey tea bag + 3 oz Bunn water</li><li>Steep the bag</li><li>Fill 5 oz ice water</li><li>Tom-tom — leave the bag in the cup</li></ol></div>
+    <div class="recipe fact"><h3>🧊 Cold Brew w/ Cream &amp; Flavor</h3>
+      <ol><li>Flavor</li><li>Cold brew</li><li>Tom-tom</li><li>Cream on top of the ice</li></ol></div>
+  </div>
+</section>
+
+<!-- ══════════ RULES ══════════ -->
+<section id="rules">
+  <div class="sechead"><span class="icon">✅</span><h2>Rules, Special 7's &amp; the Big 3</h2><div class="bar"></div></div>
+
+  <div class="bigrule fact">
+    <div class="t">Drink-making order</div>
+    <div class="v">FLAVOR → SHOTS → MILK</div>
+  </div>
+
+  <div class="bigrule fact" style="background:var(--pink)">
+    <div class="t" style="color:#ffe3ee">Reasons for a Special 7</div>
+    <div class="v">Decaf &bull; 1 shot only &bull; Milk Alternative &bull; Sugar-Free</div>
+  </div>
+
+  <div class="cardgrid">
+    <div class="fact"><div class="q">The BIG 3</div><div class="a">Genuine Interactions, Open Body Language, Customer Interactions</div></div>
+    <div class="fact"><div class="q">Cold foam upcharge</div><div class="a">$0.75 — TRUE</div></div>
+    <div class="fact"><div class="q">Canned drinks — how long can they sit?</div><div class="a">15 minutes max</div></div>
+    <div class="fact"><div class="q">Skinny drink = ?</div><div class="a">SF syrups/sauces + skim milk</div></div>
+  </div>
+
+  <div class="callout fact" style="margin-top:18px">
+    <h3>🎯 Night-before top 10</h3>
+    <ul>
+      <li>Shot window <b>17–27 sec</b>, perfect = <b>22</b> &bull; short = finer, long = coarser</li>
+      <li>Order: <b>Flavor → Shots → Milk</b></li>
+      <li>Regular temp <b>160–170°</b>, kids <b>110–120°</b>, burnt <b>over 180°</b></li>
+      <li>Default cream = <b>Breve</b> &bull; cream scoops <b>1-2-2</b></li>
+      <li>Breve originals (1-2-2): Blondie, Smooth 7, Cinnamon Roll, Sweet &amp; Salty, Cookie Butter &bull; Mocha originals (1-1-2): Banana Bread, Brunette</li>
+      <li>Ice fill lines <b>8-12-16</b> (kids 5) &bull; hot <b>8-10-12</b></li>
+      <li>Dub = 2, Quad = 4, <b>Triple 7 = 6 shots any size</b></li>
+      <li>Light ice = <b>+4 oz</b> (matcha: +1 scoop matcha)</li>
+      <li>Special 7 = decaf, 1 shot only, milk alt, or sugar-free</li>
+      <li>Big 3: <b>Genuine Interactions, Open Body Language, Customer Interactions</b></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Built from the Quizlet set "7Brew Brewista test 2026 — updated" (78 terms) &bull; Good luck, Laney! ☕💛<br>
+  <a href="practice.html" style="color:var(--red); font-weight:700">→ Practice with the Flashcards &amp; Quiz app</a>
+</footer>
+
+<script>
+  const input = document.getElementById('search');
+  const facts = [...document.querySelectorAll('.fact')];
+  const sections = [...document.querySelectorAll('section')];
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    facts.forEach(f => {
+      f.classList.toggle('hidden', q && !f.textContent.toLowerCase().includes(q));
+    });
+    sections.forEach(s => {
+      const visible = [...s.querySelectorAll('.fact')].some(f => !f.classList.contains('hidden'));
+      s.classList.toggle('hidden', q && !visible);
+    });
+  });
+</script>
+</body>
+</html>

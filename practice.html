@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>7 Brew Practice — Flashcards & Quiz for Laney</title>
+<style>
+  :root{
+    --navy:#1a2238; --cream:#faf5ec; --paper:#fff; --red:#e63b47;
+    --green:#3e9b4f; --gold:#d9a520; --ink:#2b2b33;
+    --shadow:0 3px 14px rgba(26,34,56,.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:"Segoe UI",-apple-system,Roboto,Helvetica,Arial,sans-serif; background:var(--cream); color:var(--ink); min-height:100vh;}
+
+  header{background:linear-gradient(135deg,var(--navy),#2d3a63); color:#fff; text-align:center; padding:22px 16px 10px;}
+  header h1{font-size:clamp(20px,4vw,28px); font-weight:800;}
+  header p{opacity:.85; font-size:13.5px; margin-top:4px;}
+  header a{color:#ffd97a; font-weight:700; font-size:13px;}
+
+  .tabs{display:flex; justify-content:center; gap:10px; margin:-1px 0 0; background:linear-gradient(135deg,var(--navy),#2d3a63); padding:12px 16px 16px;}
+  .tabs button{font-size:15px; font-weight:700; padding:10px 22px; border-radius:999px; border:2px solid rgba(255,255,255,.4); background:transparent; color:#fff; cursor:pointer;}
+  .tabs button.active{background:var(--red); border-color:var(--red);}
+
+  main{max-width:760px; margin:0 auto; padding:18px 16px 60px;}
+
+  .chips{display:flex; gap:7px; flex-wrap:wrap; justify-content:center; margin-bottom:16px;}
+  .chips button{font-size:12.5px; font-weight:600; padding:6px 12px; border-radius:999px; border:1.5px solid #ddd2bd; background:var(--paper); color:var(--navy); cursor:pointer;}
+  .chips button.on{background:var(--navy); color:#fff; border-color:var(--navy);}
+
+  .cardstage{perspective:1200px; margin:0 auto; max-width:560px;}
+  .flip{position:relative; width:100%; min-height:280px; transform-style:preserve-3d; transition:transform .45s; cursor:pointer;}
+  .flip.flipped{transform:rotateY(180deg);}
+  .face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:18px; box-shadow:var(--shadow); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:28px 24px;}
+  .face .tag{position:absolute; top:12px; left:14px; font-size:11px; font-weight:700; letter-spacing:.5px; color:#9a9385; text-transform:uppercase;}
+  .face .hint{position:absolute; bottom:12px; font-size:12px; color:#b0a893;}
+  .front{background:var(--paper);}
+  .front .txt{font-size:clamp(18px,3.4vw,23px); font-weight:700; color:var(--navy);}
+  .back{background:var(--navy); transform:rotateY(180deg);}
+  .back .txt{font-size:clamp(19px,3.6vw,25px); font-weight:800; color:#ffd97a;}
+  .back .tag{color:#8a94b8;} .back .hint{color:#6d78a3;}
+
+  .counter{text-align:center; font-weight:700; color:#8b8577; margin:14px 0 10px; font-size:14px;}
+  .ctrls{display:flex; justify-content:center; gap:10px; flex-wrap:wrap;}
+  .ctrls button{font-size:15px; font-weight:700; padding:11px 20px; border-radius:12px; border:none; cursor:pointer; box-shadow:var(--shadow);}
+  .b-nav{background:var(--paper); color:var(--navy);}
+  .b-flip{background:var(--gold); color:#fff;}
+  .b-shuffle{background:var(--navy); color:#fff;}
+  .b-got{background:var(--green); color:#fff;}
+  .b-again{background:var(--red); color:#fff;}
+  .pilebar{text-align:center; margin-top:14px; font-size:13.5px; color:#8b8577;}
+  .pilebar b{color:var(--navy);}
+  .pilebar button{margin-left:8px; font-size:12.5px; font-weight:700; border:none; background:none; color:var(--red); cursor:pointer; text-decoration:underline;}
+
+  .setup{background:var(--paper); border-radius:16px; padding:22px; box-shadow:var(--shadow); text-align:center;}
+  .setup h2{color:var(--navy); margin-bottom:12px; font-size:19px;}
+  .setup .lenrow{display:flex; justify-content:center; gap:9px; margin:10px 0 18px;}
+  .setup .lenrow button{font-size:15px; font-weight:700; padding:9px 18px; border-radius:10px; border:2px solid #ddd2bd; background:var(--cream); cursor:pointer; color:var(--navy);}
+  .setup .lenrow button.on{background:var(--navy); color:#fff; border-color:var(--navy);}
+  .go{font-size:17px; font-weight:800; background:var(--red); color:#fff; border:none; padding:13px 34px; border-radius:12px; cursor:pointer; box-shadow:var(--shadow);}
+
+  .qcard{background:var(--paper); border-radius:16px; padding:20px; box-shadow:var(--shadow);}
+  .qprog{font-size:13px; font-weight:700; color:#8b8577; display:flex; justify-content:space-between; margin-bottom:8px;}
+  .progtrack{height:7px; background:#eee4d0; border-radius:4px; overflow:hidden; margin-bottom:16px;}
+  .progfill{height:100%; background:var(--red); width:0%; transition:width .3s;}
+  .qtext{font-size:18px; font-weight:800; color:var(--navy); margin-bottom:16px;}
+  .opts{display:grid; gap:9px;}
+  .opts button{text-align:left; font-size:15px; font-weight:600; padding:13px 15px; border-radius:11px; border:2px solid #e8dfd0; background:var(--cream); cursor:pointer; color:var(--ink); transition:all .15s;}
+  .opts button:hover:not(:disabled){border-color:var(--navy);}
+  .opts button.correct{background:#e2f4e4; border-color:var(--green); color:#1c5c28; font-weight:800;}
+  .opts button.wrong{background:#fde4e6; border-color:var(--red); color:#8f1d26;}
+  .opts button:disabled{cursor:default;}
+  .nextrow{text-align:center; margin-top:16px;}
+  .nextrow button{font-size:15px; font-weight:800; background:var(--navy); color:#fff; border:none; padding:11px 30px; border-radius:11px; cursor:pointer;}
+  .verdict{text-align:center; font-weight:800; font-size:16px; margin-top:14px; min-height:22px;}
+  .verdict.good{color:var(--green);} .verdict.bad{color:var(--red);}
+
+  .score{background:var(--paper); border-radius:16px; padding:26px 22px; box-shadow:var(--shadow); text-align:center;}
+  .score .big{font-size:46px; font-weight:900; color:var(--navy);}
+  .score .msg{font-size:17px; font-weight:700; margin:6px 0 16px;}
+  .misslist{text-align:left; margin-top:18px;}
+  .misslist h3{font-size:14px; color:var(--red); margin-bottom:8px;}
+  .miss{background:var(--cream); border-left:4px solid var(--red); border-radius:9px; padding:10px 12px; margin-bottom:8px; font-size:14px;}
+  .miss .mq{font-weight:700; color:var(--navy);}
+  .miss .ma{color:#1c5c28; font-weight:700; margin-top:2px;}
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>☕ 7 BREW PRACTICE — FLASHCARDS &amp; QUIZ</h1>
+  <p>From the updated 2026 Brewista Test set &bull; Go get 'em, Laney! 💪</p>
+  <p style="margin-top:6px"><a href="index.html">← back to the Study Guide</a></p>
+</header>
+<div class="tabs">
+  <button id="tabFlash" class="active" onclick="showTab('flash')">🃏 Flashcards</button>
+  <button id="tabQuiz" onclick="showTab('quiz')">📝 Quiz Me</button>
+</div>
+
+<main>
+  <div class="chips" id="chips"></div>
+
+  <!-- FLASHCARDS -->
+  <div id="flashView">
+    <div class="cardstage">
+      <div class="flip" id="flip" onclick="flipCard()">
+        <div class="face front"><span class="tag" id="fCat"></span><div class="txt" id="fQ"></div><span class="hint">tap to flip 👆</span></div>
+        <div class="face back"><span class="tag">ANSWER</span><div class="txt" id="fA"></div><span class="hint">tap to flip back</span></div>
+      </div>
+    </div>
+    <div class="counter" id="counter"></div>
+    <div class="ctrls">
+      <button class="b-nav" onclick="move(-1)">◀ Back</button>
+      <button class="b-flip" onclick="flipCard()">Flip</button>
+      <button class="b-nav" onclick="move(1)">Next ▶</button>
+    </div>
+    <div class="ctrls" style="margin-top:10px">
+      <button class="b-again" onclick="markCard(false)">😅 Again</button>
+      <button class="b-got" onclick="markCard(true)">✅ Got it!</button>
+      <button class="b-shuffle" onclick="shuffleDeck()">🔀 Shuffle</button>
+    </div>
+    <div class="pilebar" id="pilebar"></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizView" class="hidden">
+    <div class="setup" id="quizSetup">
+      <h2>How many questions?</h2>
+      <div class="lenrow">
+        <button data-n="10" onclick="setLen(this)">10</button>
+        <button data-n="25" class="on" onclick="setLen(this)">25</button>
+        <button data-n="50" onclick="setLen(this)">50</button>
+        <button data-n="999" onclick="setLen(this)">All</button>
+      </div>
+      <button class="go" onclick="startQuiz()">Start Quiz ☕</button>
+    </div>
+
+    <div class="qcard hidden" id="quizPlay">
+      <div class="qprog"><span id="qNum"></span><span id="qScore"></span></div>
+      <div class="progtrack"><div class="progfill" id="qFill"></div></div>
+      <div class="qtext" id="qText"></div>
+      <div class="opts" id="qOpts"></div>
+      <div class="verdict" id="qVerdict"></div>
+      <div class="nextrow hidden" id="qNextRow"><button onclick="nextQ()">Next ▶</button></div>
+    </div>
+
+    <div class="score hidden" id="quizScore">
+      <div class="big" id="scoreBig"></div>
+      <div class="msg" id="scoreMsg"></div>
+      <button class="go" onclick="resetQuiz()">Try Again 🔁</button>
+      <div class="misslist" id="missList"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ── DATA: the updated 2026 Brewista set ─────────────────────
+const CARDS = [
+ {c:"Espresso",q:"What is our shot window?",a:"17–27 seconds"},
+ {c:"Espresso",q:"What is the PERFECT shot time?",a:"22 seconds"},
+ {c:"Espresso",q:"If a shot is pulling SHORT, what do you do?",a:"Make it finer"},
+ {c:"Espresso",q:"If a shot is pulling LONG, what do you do?",a:"Make it coarser"},
+ {c:"Espresso",q:"How many shots do House Blends get — S / M / L?",a:"2 – 3 – 4"},
+ {c:"Espresso",q:"How many shots is a DUB?",a:"2"},
+ {c:"Espresso",q:"How many shots is a QUAD?",a:"4"},
+ {c:"Espresso",q:"How many TOTAL shots does a Triple 7 have?",a:"6 shots — any size"},
+ {c:"Espresso",q:"How many shots go in a KIDS drink?",a:"1"},
+ {c:"Temps",q:"Kids temp?",a:"110–120°"},
+ {c:"Temps",q:"Regular temperature?",a:"160–170°"},
+ {c:"Temps",q:"Drinkable temp?",a:"140–150°"},
+ {c:"Temps",q:"Extra Hot temp?",a:"175–180°"},
+ {c:"Temps",q:"Burnt temp?",a:"Over 180°"},
+ {c:"Milks",q:"What milk is used for a SKINNY drink?",a:"Skim"},
+ {c:"Milks",q:"If a drink is ordered SKINNY, what happens?",a:"SF syrups/sauces are used, plus skim milk"},
+ {c:"Milks",q:"What is the DEFAULT cream for any drink (unless changed)?",a:"Breve"},
+ {c:"Milks",q:"Which milk is used for a LATTE?",a:"Whole"},
+ {c:"Milks",q:"What milk is used for a BLONDIE?",a:"Breve"},
+ {c:"Milks",q:"What milk is used for a MACCHIATO?",a:"Whole"},
+ {c:"Milks",q:"What milk is used for a CAPPUCCINO?",a:"Whole"},
+ {c:"Milks",q:"What milk is used for a BRUNETTE?",a:"Mocha"},
+ {c:"Originals",q:"What are the Original BREVES?",a:"Blondie, Smooth 7, Cinnamon Roll, Sweet & Salty, Cookie Butter"},
+ {c:"Originals",q:"What are the Original MOCHAS?",a:"Banana Bread, Brunette"},
+ {c:"Originals",q:"Banana Bread — flavors and scoops?",a:"Banana + Hazelnut, 1-1-2"},
+ {c:"Originals",q:"Cookie Butter — flavors and scoops?",a:"Hazelnut, Toasted Marshmallow, White Chocolate — 1-2-2"},
+ {c:"Originals",q:"Blondie flavors?",a:"Vanilla and Caramel"},
+ {c:"Originals",q:"Smooth 7 flavors?",a:"Irish Cream and White Chocolate"},
+ {c:"Originals",q:"Cinnamon Roll flavors?",a:"White Chocolate and Brown Sugar Cinnamon"},
+ {c:"Originals",q:"Sweet & Salty flavors?",a:"White Chocolate and Salted Caramel"},
+ {c:"Originals",q:"Brunette flavors?",a:"Hazelnut and Caramel"},
+ {c:"Originals",q:"What are all the CLASSIC drinks?",a:"Lattes, House Blend, Mocha, Breves, Cappuccinos, Macchiatos, Cold Brew"},
+ {c:"Cups & Ice",q:"Kids fill line?",a:"5"},
+ {c:"Cups & Ice",q:"ICE fill lines — S / M / L?",a:"8, 12, 16"},
+ {c:"Cups & Ice",q:"HOT fill lines — S / M / L?",a:"8 – 10 – 12"},
+ {c:"Cups & Ice",q:"Light ice gets how many extra ounces?",a:"4 oz"},
+ {c:"Cups & Ice",q:"How many extra scoops of matcha for a light-ice matcha?",a:"1"},
+ {c:"Scoops",q:"Classic drink scoops?",a:"1-1-1"},
+ {c:"Scoops",q:"Original Breve scoops?",a:"1-2-2"},
+ {c:"Scoops",q:"Original Mocha scoops?",a:"1-1-2"},
+ {c:"Scoops",q:"Smoothie scoops?",a:"1-1-2"},
+ {c:"Scoops",q:"Anything LEMONADE is...",a:"1-1-2"},
+ {c:"Scoops",q:"Chai Chiller scoops?",a:"1-1-2"},
+ {c:"Scoops",q:"Mocha Chiller scoops?",a:"1-1-2"},
+ {c:"Scoops",q:"Chiller scoops?",a:"1-1-2"},
+ {c:"Scoops",q:"SF and Milk-Alt scoops?",a:"1-2-2"},
+ {c:"Scoops",q:"SF Energy Chiller scoops?",a:"2-3-4"},
+ {c:"Scoops",q:"Hot Tea scoops?",a:"1-1-1"},
+ {c:"Scoops",q:"Matcha Chiller scoops?",a:"1-1-2"},
+ {c:"Scoops",q:"Seven Fizz scoops?",a:"2-3-4"},
+ {c:"Scoops",q:"Tea Chiller scoops?",a:"2-3-4"},
+ {c:"Scoops",q:"Seven Energy scoops?",a:"1-1-2"},
+ {c:"Scoops",q:"Fizz Chiller scoops?",a:"2-3-4"},
+ {c:"Scoops",q:"Shake scoops?",a:"2-3-4"},
+ {c:"Scoops",q:"Standard Cream scoops?",a:"1-2-2"},
+ {c:"Scoops",q:"How many scoops of flavor go in a Cold Brew?",a:"1-1-1"},
+ {c:"Scoops",q:"How many scoops go in a Cocoa?",a:"1-1-1"},
+ {c:"Scoops",q:"Matcha ICED scoops?",a:"2-3-4"},
+ {c:"Scoops",q:"Matcha HOT scoops?",a:"3-4-5"},
+ {c:"Scoops",q:"How many tea bags go in a S / M / L hot or iced tea?",a:"1-1-2"},
+ {c:"Scoops",q:"How many ounces are our scoops?",a:"1 oz"},
+ {c:"Recipes",q:"Smoothie fill lines?",a:"6, 9, 12 of smoothie mix + 2, 3, 4 of ice cream mix"},
+ {c:"Recipes",q:"Shake fill lines?",a:"2-3-4 flavor + 6-9-12 ice cream mix"},
+ {c:"Recipes",q:"Correct way to make a LARGE DECAF Mocha Chiller?",a:"4 scoops chocolate, 4 decaf shots, tom-tom, top with ice, blend"},
+ {c:"Recipes",q:"How do you make a SMALL Earl Grey iced tea?",a:"1 Earl Grey bag + 3 oz Bunn water, steep, fill 5 oz ice water, tom-tom, leave the bag in the cup"},
+ {c:"Recipes",q:"How do you make a SMALL half-sweet mocha?",a:"4 oz mocha + 4 oz breve"},
+ {c:"Recipes",q:"Correct recipe for a LARGE cappuccino?",a:"4 espresso shots, half steamed whole milk, half whole-milk froth"},
+ {c:"Recipes",q:"Correct recipe for a LARGE almond milk Brunette Chiller?",a:"2 scoops brunette, 2 chocolate, 4 shots espresso, fill to the 12 oz line with almond milk"},
+ {c:"Recipes",q:"Correct recipe for a MEDIUM strawberry banana smoothie?",a:"1 scoop banana, to the 9 with strawberry puree, to the 12 with ice cream"},
+ {c:"Recipes",q:"Correct order to build a Cold Brew with cream and flavor?",a:"Flavor, cold brew, tom-tom, cream on top of ice"},
+ {c:"Rules",q:"Reasons for a Special 7?",a:"Decaf, 1 shot only, milk alternative, sugar-free"},
+ {c:"Rules",q:"Order of making drinks?",a:"Flavor, Shots, Milk"},
+ {c:"Rules",q:"Cold foam is a $0.75 upcharge — true or false?",a:"True"},
+ {c:"Rules",q:"If a Mocha Chiller is ordered DECAF, do you still use mocha mix?",a:"Yes"},
+ {c:"Rules",q:"How long can canned drinks sit before they're no longer usable?",a:"15 minutes"},
+ {c:"Rules",q:"What are the BIG 3?",a:"Genuine Interactions, Open Body Language, Customer Interactions"}
+];
+
+const CATS = ["All","Espresso","Temps","Milks","Originals","Cups & Ice","Scoops","Recipes","Rules"];
+const CAT_EMOJI = {"All":"⭐","Espresso":"☕","Temps":"🌡️","Milks":"🥛","Originals":"✨","Cups & Ice":"🥤","Scoops":"🍧","Recipes":"🧾","Rules":"✅"};
+let activeCat = "All";
+
+const chipsEl = document.getElementById('chips');
+CATS.forEach(c => {
+  const b = document.createElement('button');
+  b.textContent = CAT_EMOJI[c] + " " + c;
+  if (c === "All") b.classList.add('on');
+  b.onclick = () => {
+    activeCat = c;
+    [...chipsEl.children].forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    buildDeck(); resetQuiz();
+  };
+  chipsEl.appendChild(b);
+});
+
+function pool(){ return activeCat === "All" ? CARDS : CARDS.filter(x => x.c === activeCat); }
+function shuffled(arr){ const a = arr.slice(); for (let i = a.length-1; i > 0; i--){ const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+
+// ── flashcards ──
+let deck = [], idx = 0, got = new Set(), again = new Set();
+const flipEl = document.getElementById('flip');
+
+function buildDeck(){ deck = shuffled(pool()); idx = 0; got.clear(); again.clear(); renderCard(); }
+function renderCard(){
+  const card = deck[idx];
+  const wasFlipped = flipEl.classList.contains('flipped');
+  flipEl.classList.remove('flipped');
+  setTimeout(() => {
+    document.getElementById('fCat').textContent = CAT_EMOJI[card.c] + " " + card.c.toUpperCase();
+    document.getElementById('fQ').textContent = card.q;
+    document.getElementById('fA').textContent = card.a;
+  }, wasFlipped ? 220 : 0);
+  document.getElementById('counter').textContent = `Card ${idx+1} of ${deck.length}`;
+  document.getElementById('pilebar').innerHTML =
+    `✅ Got it: <b>${got.size}</b> &nbsp;&bull;&nbsp; 😅 Again: <b>${again.size}</b>` +
+    (again.size ? ` <button onclick="reviewMissed()">study the ${again.size} missed →</button>` : ``);
+}
+function flipCard(){ flipEl.classList.toggle('flipped'); }
+function move(d){ idx = (idx + d + deck.length) % deck.length; renderCard(); }
+function markCard(ok){
+  const key = deck[idx].q;
+  if (ok){ got.add(key); again.delete(key); } else { again.add(key); got.delete(key); }
+  move(1);
+}
+function shuffleDeck(){ buildDeck(); }
+function reviewMissed(){
+  deck = shuffled(deck.filter(x => again.has(x.q)));
+  idx = 0; renderCard();
+}
+document.addEventListener('keydown', e => {
+  if (document.getElementById('flashView').classList.contains('hidden')) return;
+  if (e.key === 'ArrowRight') move(1);
+  if (e.key === 'ArrowLeft') move(-1);
+  if (e.key === ' ' || e.key === 'Enter'){ e.preventDefault(); flipCard(); }
+});
+
+// ── tabs ──
+function showTab(t){
+  document.getElementById('flashView').classList.toggle('hidden', t !== 'flash');
+  document.getElementById('quizView').classList.toggle('hidden', t !== 'quiz');
+  document.getElementById('tabFlash').classList.toggle('active', t === 'flash');
+  document.getElementById('tabQuiz').classList.toggle('active', t === 'quiz');
+}
+
+// ── quiz ──
+let quizLen = 25, quiz = [], qi = 0, qScore = 0, misses = [], answered = false;
+function setLen(btn){ quizLen = +btn.dataset.n; [...btn.parentNode.children].forEach(b => b.classList.remove('on')); btn.classList.add('on'); }
+
+function distractors(card){
+  const sameCat = CARDS.filter(x => x.c === card.c && x.a !== card.a).map(x => x.a);
+  const anyCat  = CARDS.filter(x => x.a !== card.a).map(x => x.a);
+  const opts = new Set();
+  for (const a of shuffled(sameCat)){ if (opts.size >= 3) break; opts.add(a); }
+  for (const a of shuffled(anyCat)){ if (opts.size >= 3) break; opts.add(a); }
+  return [...opts].slice(0,3);
+}
+function startQuiz(){
+  quiz = shuffled(pool()).slice(0, quizLen);
+  qi = 0; qScore = 0; misses = [];
+  document.getElementById('quizSetup').classList.add('hidden');
+  document.getElementById('quizScore').classList.add('hidden');
+  document.getElementById('quizPlay').classList.remove('hidden');
+  renderQ();
+}
+function renderQ(){
+  answered = false;
+  const card = quiz[qi];
+  document.getElementById('qNum').textContent = `Question ${qi+1} / ${quiz.length}`;
+  document.getElementById('qScore').textContent = `Score: ${qScore}`;
+  document.getElementById('qFill').style.width = (qi / quiz.length * 100) + '%';
+  document.getElementById('qText').textContent = card.q;
+  document.getElementById('qVerdict').textContent = '';
+  document.getElementById('qVerdict').className = 'verdict';
+  document.getElementById('qNextRow').classList.add('hidden');
+  const optsEl = document.getElementById('qOpts');
+  optsEl.innerHTML = '';
+  shuffled([card.a, ...distractors(card)]).forEach(opt => {
+    const b = document.createElement('button');
+    b.textContent = opt;
+    b.onclick = () => answer(b, opt, card);
+    optsEl.appendChild(b);
+  });
+}
+function answer(btn, opt, card){
+  if (answered) return;
+  answered = true;
+  const right = opt === card.a;
+  [...document.getElementById('qOpts').children].forEach(b => {
+    b.disabled = true;
+    if (b.textContent === card.a) b.classList.add('correct');
+  });
+  const v = document.getElementById('qVerdict');
+  if (right){ qScore++; v.textContent = pick(["Nailed it! ☕","Yes girl! 🎉","Correct! 💪","Brewista brain! 🧠"]); v.classList.add('good'); }
+  else { btn.classList.add('wrong'); v.textContent = "Not quite — the green one is right."; v.classList.add('bad'); misses.push(card); }
+  document.getElementById('qScore').textContent = `Score: ${qScore}`;
+  document.getElementById('qNextRow').classList.remove('hidden');
+}
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function nextQ(){
+  qi++;
+  if (qi >= quiz.length) return endQuiz();
+  renderQ();
+}
+function endQuiz(){
+  document.getElementById('quizPlay').classList.add('hidden');
+  const sc = document.getElementById('quizScore');
+  sc.classList.remove('hidden');
+  const pct = Math.round(qScore / quiz.length * 100);
+  document.getElementById('scoreBig').textContent = `${qScore}/${quiz.length}`;
+  document.getElementById('scoreMsg').textContent =
+    pct === 100 ? "💯 PERFECT — you're SO ready for this test!" :
+    pct >= 90 ? `${pct}% — Almost perfect, you've got this! 🌟` :
+    pct >= 75 ? `${pct}% — Solid! Review the misses below and go again. 💪` :
+    pct >= 50 ? `${pct}% — Good start! The study guide + one more round will do it. ☕` :
+    `${pct}% — No stress. Flip through the flashcards, then try again!`;
+  const ml = document.getElementById('missList');
+  ml.innerHTML = misses.length
+    ? `<h3>Review these ${misses.length}:</h3>` + misses.map(m =>
+        `<div class="miss"><div class="mq">${m.q}</div><div class="ma">✔ ${m.a}</div></div>`).join('')
+    : '';
+}
+function resetQuiz(){
+  document.getElementById('quizPlay').classList.add('hidden');
+  document.getElementById('quizScore').classList.add('hidden');
+  document.getElementById('quizSetup').classList.remove('hidden');
+}
+
+buildDeck();
+</script>
+</body>
+</html>
