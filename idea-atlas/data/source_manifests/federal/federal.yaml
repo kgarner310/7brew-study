@@ -1,0 +1,279 @@
+schema_version: 1
+jurisdiction: us
+jurisdiction_name: United States (Federal)
+description: >-
+  Official federal sources for the Individuals with Disabilities Education Act:
+  the statute (20 U.S.C. ch. 33), the Part B and Part C implementing regulations
+  (34 C.F.R. parts 300 and 303), Department of Education guidance from OSERS and
+  OSEP, the OCR intersection with Section 504 and Title II, and federal judicial
+  opinions. Commercial legal publishers are deliberately excluded; see
+  docs/LEGAL_DATA_POLICY.md.
+
+verification:
+  status: unverified
+  populated_by: model_knowledge
+  reviewed_by: null
+  reviewed_at: null
+  notes: >-
+    NO URL IN THIS FILE HAS BEEN VERIFIED. It was authored in an environment
+    whose network policy blocks outbound .gov traffic, so every entry comes from
+    model knowledge and may be stale, renamed, or wrong. ed.gov in particular has
+    been reorganized repeatedly and its OSEP/OSERS paths are known to churn.
+    Run `idea-atlas verify-sources --live` from a network-enabled machine and set
+    url_verified per source before enabling ingestion.
+
+sources:
+  # -- Statute ------------------------------------------------------------
+  - slug: olrc-uscode-title20-ch33
+    name: IDEA statute, 20 U.S.C. ch. 33 (Office of the Law Revision Counsel)
+    publisher: U.S. House of Representatives, Office of the Law Revision Counsel
+    source_type: statute
+    base_url: https://uscode.house.gov/browse/prelim@title20/chapter33&edition=prelim
+    retrieval_method: http_html
+    official_source: true
+    copyright_status: us_government_public_domain
+    commercial_reuse_status: permitted
+    license_notes: >-
+      Edicts of government. U.S. Code text prepared by the OLRC carries no
+      copyright (17 U.S.C. 105); OLRC notes state the Code is in the public domain.
+    crawl_frequency: quarterly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: Authoritative for statutory text. Sec. 1400-1482.
+    meta:
+      idea_part: cross_cutting
+      title: "20"
+      chapter: "33"
+
+  - slug: govinfo-uscode
+    name: GovInfo United States Code collection
+    publisher: U.S. Government Publishing Office
+    source_type: statute
+    base_url: https://www.govinfo.gov/app/collection/uscode
+    retrieval_method: bulk_download
+    official_source: true
+    copyright_status: us_government_public_domain
+    commercial_reuse_status: permitted
+    license_notes: GPO material is in the public domain unless separately marked.
+    crawl_frequency: annually
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: >-
+      Bulk XML/USLM alternative to OLRC HTML scraping, and the preferred path for
+      historical statutory editions. The GovInfo API requires a free api.data.gov
+      key; store it in the environment, never in this file.
+    meta:
+      api_base_url: https://api.govinfo.gov
+      requires_api_key: "true"
+      bulk_format: USLM XML
+
+  # -- Regulations --------------------------------------------------------
+  - slug: ecfr-34-cfr-300
+    name: 34 C.F.R. Part 300 - Assistance to States for the Education of Children with Disabilities (IDEA Part B)
+    publisher: National Archives and Records Administration, Office of the Federal Register
+    source_type: regulation
+    base_url: https://www.ecfr.gov/current/title-34/subtitle-B/chapter-III/part-300
+    retrieval_method: api
+    official_source: true
+    copyright_status: us_government_public_domain
+    commercial_reuse_status: permitted
+    license_notes: >-
+      eCFR content is U.S. government work in the public domain. The eCFR is an
+      unofficial editorial compilation; the annual printed CFR and the Federal
+      Register remain the legally official sources.
+    crawl_frequency: monthly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: >-
+      PRIMARY INGESTION TARGET. The eCFR versioner API returns structured XML with
+      point-in-time support, requires no API key, and exposes amendment dates -
+      which is exactly what AuthorityVersion.effective_from needs.
+    meta:
+      idea_part: part_b
+      api_full_xml: https://www.ecfr.gov/api/versioner/v1/full/{date}/title-34.xml?part=300
+      api_structure: https://www.ecfr.gov/api/versioner/v1/structure/{date}/title-34.json
+      api_versions: https://www.ecfr.gov/api/versioner/v1/versions/title-34.json?part=300
+      requires_api_key: "false"
+
+  - slug: ecfr-34-cfr-303
+    name: 34 C.F.R. Part 303 - Early Intervention Program for Infants and Toddlers with Disabilities (IDEA Part C)
+    publisher: National Archives and Records Administration, Office of the Federal Register
+    source_type: regulation
+    base_url: https://www.ecfr.gov/current/title-34/subtitle-B/chapter-III/part-303
+    retrieval_method: api
+    official_source: true
+    copyright_status: us_government_public_domain
+    commercial_reuse_status: permitted
+    crawl_frequency: monthly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: Part C implementing regulations.
+    meta:
+      idea_part: part_c
+      api_full_xml: https://www.ecfr.gov/api/versioner/v1/full/{date}/title-34.xml?part=303
+      requires_api_key: "false"
+
+  - slug: ecfr-34-cfr-104
+    name: 34 C.F.R. Part 104 - Nondiscrimination on the Basis of Handicap (Section 504)
+    publisher: National Archives and Records Administration, Office of the Federal Register
+    source_type: regulation
+    base_url: https://www.ecfr.gov/current/title-34/subtitle-B/chapter-I/part-104
+    retrieval_method: api
+    official_source: true
+    copyright_status: us_government_public_domain
+    commercial_reuse_status: permitted
+    crawl_frequency: quarterly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: >-
+      OCR intersection. Section 504 FAPE obligations overlap IDEA and frequently
+      decide cases where IDEA eligibility fails.
+    meta:
+      idea_part: cross_cutting
+
+  - slug: federalregister-ed
+    name: Federal Register - Department of Education documents
+    publisher: Office of the Federal Register
+    source_type: regulation
+    base_url: https://www.federalregister.gov/agencies/education-department
+    retrieval_method: api
+    official_source: true
+    copyright_status: us_government_public_domain
+    commercial_reuse_status: permitted
+    crawl_frequency: weekly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: >-
+      Change detection for proposed and final rules. The FR API is open, keyless,
+      and supports date-filtered queries - the right trigger for re-crawling eCFR.
+    meta:
+      api_base_url: https://www.federalregister.gov/api/v1/documents.json
+      requires_api_key: "false"
+
+  # -- Department of Education guidance -----------------------------------
+  - slug: ed-idea-site
+    name: IDEA website, U.S. Department of Education
+    publisher: U.S. Department of Education, Office of Special Education Programs
+    source_type: guidance
+    base_url: https://sites.ed.gov/idea/
+    retrieval_method: http_html
+    official_source: true
+    copyright_status: us_government_public_domain
+    commercial_reuse_status: permitted
+    crawl_frequency: monthly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: Hub for IDEA regulations, guidance, and Q&A documents.
+
+  - slug: osep-policy-letters
+    name: OSEP policy letters and Dear Colleague letters
+    publisher: U.S. Department of Education, Office of Special Education Programs
+    source_type: policy_letter
+    base_url: https://sites.ed.gov/idea/policy-letters/
+    retrieval_method: http_html
+    official_source: true
+    copyright_status: us_government_public_domain
+    commercial_reuse_status: permitted
+    crawl_frequency: monthly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: >-
+      Agency interpretation, not binding law. Ingested authorities from this
+      source must carry precedential_status=persuasive and proposition
+      authority_status=agency_interpretation. Withdrawn and rescinded letters must
+      be captured as such, not deleted.
+
+  - slug: osers-guidance
+    name: OSERS guidance and publications
+    publisher: U.S. Department of Education, Office of Special Education and Rehabilitative Services
+    source_type: guidance
+    base_url: https://www.ed.gov/about/ed-offices/osers
+    retrieval_method: http_html
+    official_source: true
+    copyright_status: us_government_public_domain
+    commercial_reuse_status: permitted
+    crawl_frequency: monthly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: >-
+      HIGH CHURN. ed.gov office URLs have been restructured several times; this
+      path is a guess and must be verified before first crawl.
+
+  - slug: ocr-guidance
+    name: Office for Civil Rights guidance
+    publisher: U.S. Department of Education, Office for Civil Rights
+    source_type: guidance
+    base_url: https://www.ed.gov/about/ed-offices/ocr
+    retrieval_method: http_html
+    official_source: true
+    copyright_status: us_government_public_domain
+    commercial_reuse_status: permitted
+    crawl_frequency: monthly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: Section 504 / Title II guidance and resolution letters intersecting IDEA.
+
+  # -- Judicial opinions --------------------------------------------------
+  - slug: supremecourt-opinions
+    name: U.S. Supreme Court slip and bound opinions
+    publisher: Supreme Court of the United States
+    source_type: court_opinion
+    base_url: https://www.supremecourt.gov/opinions/opinions.aspx
+    retrieval_method: http_pdf
+    official_source: true
+    copyright_status: government_edict
+    commercial_reuse_status: permitted
+    license_notes: >-
+      Judicial opinions are edicts of government and uncopyrightable
+      (Banks v. Manchester; Georgia v. Public.Resource.Org, 590 U.S. 255 (2020)).
+      This covers the opinion text only, not any commercial publisher's syllabus,
+      headnotes, or star pagination apparatus.
+    crawl_frequency: weekly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: >-
+      Controlling IDEA precedent, e.g. Rowley, Honig, Burlington, Carter, Forest
+      Grove, Fry, Endrew F., Perez. Cite-check every case before use; case names
+      and reporter cites in this repository are unverified.
+
+  - slug: govinfo-uscourts
+    name: GovInfo United States Courts Opinions (USCOURTS) collection
+    publisher: U.S. Government Publishing Office
+    source_type: court_opinion
+    base_url: https://www.govinfo.gov/app/collection/uscourts
+    retrieval_method: bulk_download
+    official_source: true
+    copyright_status: government_edict
+    commercial_reuse_status: permitted
+    crawl_frequency: weekly
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: >-
+      Preferred federal appellate and district source: participating courts submit
+      opinions to GPO, coverage is authenticated, and bulk access avoids PACER
+      fees and terms. Coverage is incomplete by court and year - record gaps
+      rather than assuming absence means no decision.
+    meta:
+      requires_api_key: "true"
+      api_base_url: https://api.govinfo.gov
+
+  - slug: caselaw-access-project
+    name: Caselaw Access Project bulk opinions
+    publisher: Harvard Law School Library Innovation Lab
+    source_type: court_opinion
+    base_url: https://static.case.law/
+    retrieval_method: bulk_download
+    official_source: false
+    copyright_status: government_edict
+    commercial_reuse_status: requires_legal_review
+    license_notes: >-
+      CAP released its scanned corpus for unrestricted use, and the underlying
+      opinions are uncopyrightable edicts. NOT an official source, so it is
+      secondary to GovInfo: use it for historical backfill and corroboration, and
+      confirm current terms before commercial redistribution.
+    crawl_frequency: annually
+    crawl_status: urls_unverified
+    url_verified: false
+    notes: >-
+      Non-.gov host; explicitly allowlisted in app/ingestion/url_safety.py.
+      Historical backfill only.

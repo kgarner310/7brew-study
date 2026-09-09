@@ -1,0 +1,42 @@
+# Fixture document descriptors for offline ingestion.
+# SYNTHETIC DATA -- see README.md in this directory.
+source_slug: ecfr-34-cfr-300
+documents:
+  - url: https://www.ecfr.gov/current/title-34/section-300.301
+    canonical_citation: 34 C.F.R. 300.301
+    title: Initial evaluations
+    authority_type: federal_regulation
+    idea_part: part_b
+    court_or_agency: U.S. Department of Education
+    official_url: https://www.ecfr.gov/current/title-34/section-300.301
+    meta:
+      fixture_file: ecfr-34-cfr-300-301.v1.html
+      content_type: text/html
+      part: "300"
+      section: "300.301"
+
+  - url: https://www.ecfr.gov/current/title-34/section-300.8
+    canonical_citation: 34 C.F.R. 300.8
+    title: Child with a disability
+    authority_type: federal_regulation
+    idea_part: part_b
+    court_or_agency: U.S. Department of Education
+    official_url: https://www.ecfr.gov/current/title-34/section-300.8
+    meta:
+      fixture_file: ecfr-34-cfr-300-8.html
+      content_type: text/html
+      part: "300"
+      section: "300.8"
+
+  - url: https://www.ecfr.gov/current/title-34/section-303.310
+    canonical_citation: 34 C.F.R. 303.310
+    title: Post-referral timeline (45 days)
+    authority_type: federal_regulation
+    idea_part: part_c
+    court_or_agency: U.S. Department of Education
+    official_url: https://www.ecfr.gov/current/title-34/section-303.310
+    meta:
+      fixture_file: ecfr-34-cfr-303-310.html
+      content_type: text/html
+      part: "303"
+      section: "303.310"
