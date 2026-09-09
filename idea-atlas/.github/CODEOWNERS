@@ -1,0 +1,23 @@
+# Default reviewer for everything.
+*                                   @kgarner310
+
+# Legal data and policy: changes here alter what the platform asserts as law.
+# These paths should require review by someone competent in special-education
+# law, not only in Python.
+/app/legal/                         @kgarner310
+/data/source_manifests/             @kgarner310
+/docs/LEGAL_DATA_POLICY.md          @kgarner310
+/docs/JURISDICTIONS.md              @kgarner310
+/app/services/research.py           @kgarner310
+/app/services/seed.py               @kgarner310
+
+# Security-critical: SSRF controls, fetching, and the threat model.
+/app/ingestion/url_safety.py        @kgarner310
+/app/ingestion/fetcher.py           @kgarner310
+/app/api/security.py                @kgarner310
+/docs/SECURITY.md                   @kgarner310
+/docs/THREAT_MODEL.md               @kgarner310
+
+# Schema changes are hard to reverse once data exists.
+/migrations/                        @kgarner310
+/app/models/                        @kgarner310

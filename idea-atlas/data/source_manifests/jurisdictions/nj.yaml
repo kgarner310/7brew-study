@@ -1,0 +1,68 @@
+schema_version: 1
+jurisdiction: nj
+jurisdiction_name: New Jersey
+sea: New Jersey Department of Education
+federal_circuit: 3rd
+idea_part_b_applicable: true
+idea_part_c_applicable: true
+official_sites:
+  statutes:
+    url: null
+    verified: false
+    verified_at: null
+    verified_by: null
+    notes: null
+  regulations:
+    url: null
+    verified: false
+    verified_at: null
+    verified_by: null
+    notes: null
+  special_education:
+    url: null
+    verified: false
+    verified_at: null
+    verified_by: null
+    notes: null
+  procedural_safeguards:
+    url: null
+    verified: false
+    verified_at: null
+    verified_by: null
+    notes: null
+  due_process_decisions:
+    url: null
+    verified: false
+    verified_at: null
+    verified_by: null
+    notes: null
+  state_complaints:
+    url: null
+    verified: false
+    verified_at: null
+    verified_by: null
+    notes: null
+  guidance:
+    url: null
+    verified: false
+    verified_at: null
+    verified_by: null
+    notes: null
+  forms:
+    url: null
+    verified: false
+    verified_at: null
+    verified_by: null
+    notes: null
+sources: []
+crawl_status: not_started
+verification:
+  status: unverified
+  populated_by: generator
+  reviewed_by: null
+  reviewed_at: null
+  notes: 'Auto-generated skeleton. No official URL has been identified or verified for this jurisdiction
+    yet. Populate each official_sites entry with the SEA''s authoritative URL, confirm it by opening it,
+    then set verified: true and record verified_by/verified_at. Until then this jurisdiction reports zero
+    coverage, which is the accurate state.'
+notes: null

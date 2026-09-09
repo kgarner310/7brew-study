@@ -1,0 +1,69 @@
+# Local development stack.
+# Secrets: this file carries development-only credentials for a database that
+# is not reachable outside the compose network. Never reuse these values, and
+# never commit a real .env.
+name: idea-atlas
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: idea_atlas
+    ports:
+      - "127.0.0.1:5432:5432"   # bound to loopback, not 0.0.0.0
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init-test-db.sql:/docker-entrypoint-initdb.d/10-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d idea_atlas"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    restart: unless-stopped
+
+  migrate:
+    build:
+      context: .
+      target: runtime
+    command: ["idea-atlas", "db", "upgrade", "head"]
+    environment:
+      IDEA_ATLAS_ENV: development
+      IDEA_ATLAS_DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/idea_atlas
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    build:
+      context: .
+      target: runtime
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      IDEA_ATLAS_ENV: development
+      IDEA_ATLAS_DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/idea_atlas
+      IDEA_ATLAS_LOG_JSON: "true"
+      IDEA_ATLAS_CORS_ORIGINS: ""
+      IDEA_ATLAS_AI_PROVIDER: "null"
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    # Hardening: the API needs no write access to its own filesystem and no
+    # privilege escalation. Ingestion runs as a separate job with its own creds.
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    restart: unless-stopped
+
+volumes:
+  pgdata:
